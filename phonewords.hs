@@ -23,7 +23,13 @@
 
 -}
 
-import PTfuncsyntax
-
-
-main = putStrLn "Put your program here!"
+import PTfuncsyntaxCopy
+import Data.Char (toLower)
+phonewords :: [Int] -> [String] -> Int -> IO ()
+phonewords x y z = mapM_ putStrLn [(snd a) | a <- (zip x y), (fst a) == z]
+main = do
+    putStrLn "Type a four-digit number:"
+    dwords <- readFile "/usr/share/dict/american-english"
+    let matchnums = map wordsToPhone (lines dwords)
+    inum <- readLn
+    phonewords matchnums (lines dwords) inum

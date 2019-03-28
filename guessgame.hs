@@ -37,17 +37,26 @@
     Your number is 889, right? (answer "yes" or "no") 
     yes
     I KNEW IT! Thank you.
+    
 -}
+guessIt :: Int -> Int -> IO ()
+guessIt minb maxb = do
+    let s = ([minb..maxb] !! ((length [minb..maxb]) `div` 2)-1)
+    if length [minb..maxb] == 1
+        then do putStrLn ("Your number is " ++ show s ++ ", right? (answer \"yes\" or \"no\") ") 
+                guess <- getLine
+                (if guess == "yes"
+                    then putStrLn ("I KNEW IT! Thank you.")
+                    else putStrLn ("Umm... I don't really know what happened there, but something went wrong."))
+                main
+        else do putStrLn ("Is your number greater than " ++ show s ++ "? (answer \"yes\" or \"no\") ")
+                guess <- getLine
+                (if guess == "yes"
+                    then guessIt ([minb..maxb] !! ((length [minb..maxb]) `div` 2)) maxb
+                    else guessIt minb ([minb..maxb] !! ((length [minb..maxb]) `div` 2)))
 
-guessIt :: Int -> IO ()
-guessIt 11 = putStrLn "Wait.. I have already guessed everything! Cheater."
-guessIt s = do
-    putStrLn $ "Is your number " ++ show s ++ "? (answer \"yes\" or \"no\") "
-    guess <- getLine
-    if guess == "yes"
-        then putStrLn "I KNEW IT! Thank you."
-        else guessIt (s+1)
 
 main = do
-    putStrLn "Think of a number between 1 and 10 and I will guess it."
-    guessIt 1
+    putStrLn "Think of a number between 1 and 1000 and I will guess it."
+    guessIt 1 1000
+

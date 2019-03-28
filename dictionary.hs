@@ -44,5 +44,18 @@
     *Main> 
     
 -}
-
-main = putStrLn "Put your program here!"
+import Data.Char (toLower)
+main = do
+    putStrLn "Type any word and I will tell you if it is in the dictionary:"
+    dwords <- readFile "/usr/share/dict/american-english"
+    newfunc dwords
+newfunc dwords = do
+    iwords <- getLine
+    if iwords == "" 
+        then main 
+        else (if map toLower iwords `elem` lines (dwords) 
+                    then putStrLn ("Yes, " ++ iwords ++ " is in the dictionary.") 
+                    else putStrLn ("No, " ++ iwords ++ " is not in the dictionary."))
+    newfunc dwords
+                
+    
